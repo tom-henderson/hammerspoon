@@ -87,14 +87,14 @@ end)
 hs.hotkey.bind({"alt", "ctrl"}, "Right", function()
     local win = hs.window.focusedWindow()
     local nextScreen = win:screen():next()
-    win:moveToScreen(nextScreen)
+    win:moveToScreen(nextScreen, false, true, sizeup.animationDuration)
 end)
 
 -- Previous Screen
 hs.hotkey.bind({"alt", "ctrl"}, "Left", function()
     local win = hs.window.focusedWindow()
     local nextScreen = win:screen():previous()
-    win:moveToScreen(nextScreen)
+    win:moveToScreen(nextScreen, false, true, sizeup.animationDuration)
 end)
 
 -- Snap Back
