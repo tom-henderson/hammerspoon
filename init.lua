@@ -104,20 +104,22 @@ end)
 
 -- Replace Caffiene
 -- http://www.hammerspoon.org/docs/hs.caffeinate.html
--- local caffeine = hs.menubar.new()
--- function setCaffeineDisplay(state)
---     if state then
---         caffeine:setIcon("~/.hammerspoon/images/active.png", false)
---     else
---         caffeine:setIcon("~/.hammerspoon/images/inactive.png", false)
---     end
--- end
+local caffeine = {}
+caffeine.menu = hs.menubar.new()
 
--- function caffeineClicked()
---     setCaffeineDisplay(hs.caffeinate.toggle("displayIdle"))
--- end
+function caffeine.setCaffeineDisplay(state)
+    if state then
+        caffeine.menu:setIcon("~/.hammerspoon/images/active@2x.png", false)
+    else
+        caffeine.menu:setIcon("~/.hammerspoon/images/inactive@2x.png", false)
+    end
+end
 
--- if caffeine then
---     caffeine:setClickCallback(caffeineClicked)
---     setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
--- end
+function caffeine.caffeineClicked()
+    caffeine.setCaffeineDisplay(hs.caffeinate.toggle("displayIdle"))
+end
+
+if caffeine then
+    caffeine.menu:setClickCallback(caffeine.caffeineClicked)
+    caffeine.setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
+end
