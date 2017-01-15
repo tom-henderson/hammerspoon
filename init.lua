@@ -18,89 +18,89 @@ hs.hotkey.bind({"ctrl", "alt"}, "Delete", function()
   hs.application.launchOrFocus("/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app")
 end)
 
+hs.hotkey.bind({"ctrl", "alt"}, "ForwardDelete", function()
+  hs.application.launchOrFocus("/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app")
+end)
+
 hs.hotkey.bind({"shift", "cmd"}, ",", function()
     hs.application.launchOrFocus("System Preferences")
 end)
 
 -- Replace SizeUp
--- hs.window.animation_duration = 0.0
+local sizeup = {}
+sizeup.animationDuration = 0.0
+sizeup.snapback_window_state = { }
+sizeup.positions = {
+    max = hs.layout.maximized,
+    left = hs.layout.left50,
+    right = hs.layout.right50,
+    top = {x=0, y=0, w=1, h=0.5},
+    bottom = {x=0, y=0.5, w=1, h=0.5}
+}
 
--- hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
---   local win = hs.window.focusedWindow()
---   local f = win:frame()
---   local screen = win:screen()
---   local max = screen:frame()
+function sizeup.set_window_location(position)
+    local win =  hs.window.focusedWindow()
+    local previous_state = sizeup.snapback_window_state[win:id()]
 
---   f.x = max.x
---   f.y = max.y
---   f.w = max.w / 2
---   f.h = max.h
---   win:setFrame(f)
--- 
+    if not previous_state then
+        sizeup.snapback_window_state[win:id()] = win:frame()
+    end
 
--- hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
---   local win = hs.window.focusedWindow()
---   local f = win:frame()
---   local screen = win:screen()
---   local max = screen:frame()
+    return win:moveToUnit(position, sizeup.animationDuration)
+end
 
---   f.x = max.x + (max.w / 2)
---   f.y = max.y
---   f.w = max.w / 2
---   f.h = max.h
---   win:setFrame(f)
--- end)
+function sizeup.snapback()
+    local win = hs.window.focusedWindow()
+    local previous_state = sizeup.snapback_window_state[win:id()]
+    if previous_state then
+        win:setFrame(previous_state, sizeup.animationDuration)
+    end
+    sizeup.snapback_window_state[win:id()] = nil
+end
 
--- hs.hotkey.bind({"cmd", "alt", "ctrl"}, "M", function()
---   local win = hs.window.focusedWindow()
---   local f = win:frame()
---   local screen = win:screen()
---   local max = screen:frame()
+-- Maximize
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "M", function()
+  sizeup.set_window_location(sizeup.positions.max)
+end)
 
---   f.x = max.x
---   f.y = max.y
---   f.w = max.w
---   f.h = max.h
---   win:setFrame(f)
--- end)
+-- Left Half
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
+  sizeup.set_window_location(sizeup.positions.left)
+end)
 
--- hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Up", function()
---   local win = hs.window.focusedWindow()
---   local f = win:frame()
---   local screen = win:screen()
---   local max = screen:frame()
+-- Right Half
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
+  sizeup.set_window_location(sizeup.positions.right)
+end)
 
---   f.x = max.x
---   f.y = max.y
---   f.w = max.w
---   f.h = max.h / 2
---   win:setFrame(f)
--- end)
+-- Top Half
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Up", function()
+  sizeup.set_window_location(sizeup.positions.top)
+end)
 
--- hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Down", function()
---   local win = hs.window.focusedWindow()
---   local f = win:frame()
---   local screen = win:screen()
---   local max = screen:frame()
+-- Bottom Half
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Down", function()
+  sizeup.set_window_location(sizeup.positions.bottom)
+end)
 
---   f.x = max.x
---   f.y = max.y + (max.h / 2)
---   f.w = max.w
---   f.h = max.h / 2
---   win:setFrame(f)
--- end)
+-- Next Screen
+hs.hotkey.bind({"alt", "ctrl"}, "Right", function()
+    local win = hs.window.focusedWindow()
+    local nextScreen = win:screen():next()
+    win:moveToScreen(nextScreen)
+end)
 
--- hs.hotkey.bind({"alt", "ctrl"}, "Left", function()
---     local win = hs.window.focusedWindow()
---     local nextScreen = win:screen():previous()
---     win:moveToScreen(nextScreen)
--- end)
+-- Previous Screen
+hs.hotkey.bind({"alt", "ctrl"}, "Left", function()
+    local win = hs.window.focusedWindow()
+    local nextScreen = win:screen():previous()
+    win:moveToScreen(nextScreen)
+end)
 
--- hs.hotkey.bind({"alt", "ctrl"}, "Right", function()
---     local win = hs.window.focusedWindow()
---     local nextScreen = win:screen():next()
---     win:moveToScreen(nextScreen)
--- end)
+-- Snap Back
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "/", function()
+  sizeup.snapback()
+end)
 
 -- Replace Caffiene
 -- http://www.hammerspoon.org/docs/hs.caffeinate.html
