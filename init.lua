@@ -95,6 +95,26 @@ hs.hotkey.bind({"alt", "ctrl"}, "Left", function()
     win:moveOneScreenWest(false, true, sizeup.animationDuration)
 end)
 
+-- -- All to Next Screen
+-- hs.hotkey.bind({"alt", "ctrl", "shift", "cmd"}, "Right", function()
+--     local win = hs.window.focusedWindow()
+--     local otherWins = win:otherWindowsSameScreen()
+--     for w in otherWins do
+--         w:moveOneScreenEast(false, true, sizeup.animationDuration)
+--     end
+--     win:moveOneScreenEast(false, true, sizeup.animationDuration)
+-- end)
+
+-- -- All to Previous Screen
+-- hs.hotkey.bind({"alt", "ctrl", "shift", "cmd"}, "Left", function()
+--     local win = hs.window.focusedWindow()
+--     local otherWins = win:otherWindowsSameScreen()
+--     for w in otherWins do
+--         w:moveOneScreenWest(false, true, sizeup.animationDuration)
+--     end
+--     win:moveOneScreenWest(false, true, sizeup.animationDuration)
+-- end)
+
 -- Snap Back
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "/", function()
   sizeup.snapback()
