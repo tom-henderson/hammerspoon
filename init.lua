@@ -35,7 +35,8 @@ sizeup.positions = {
     left = hs.layout.left50,
     right = hs.layout.right50,
     top = {x=0, y=0, w=1, h=0.5},
-    bottom = {x=0, y=0.5, w=1, h=0.5}
+    bottom = {x=0, y=0.5, w=1, h=0.5},
+    center = {x=0.25, y=0.125, w=0.5, h=0.75}
 }
 
 function sizeup.set_window_location(position)
@@ -61,6 +62,11 @@ end
 -- Maximize
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "M", function()
   sizeup.set_window_location(sizeup.positions.max)
+end)
+
+-- Center
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "C", function()
+  sizeup.set_window_location(sizeup.positions.center)
 end)
 
 -- Left Half
@@ -141,3 +147,27 @@ if caffeine then
     caffeine.menu:setClickCallback(caffeine.caffeineClicked)
     caffeine.setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
 end
+
+-- local pushpay_status = {}
+-- pushpay_status.menu = hs.menubar.new()
+
+-- function pushpay_status.menuClicked()
+--     hs.http.asyncGet('https://api.pushpay.com/v1/healthcheck', nil, function()
+--         body_json = hs.json.decode(body)
+--         hs.notify.new({title=body, informativeText=body}):send()
+--     end)
+-- end
+
+-- if pushpay_status then
+--     pushpay_status.menu:setClickCallback(pushpay_status.menuClicked)
+--     pushpay_status.menu:setIcon("~/.hammerspoon/images/pushpay_logo.png", false)
+--     pushpay_status.menu:setMenu( {
+--        { title = "CheckgatewayMinionConnectivity" },
+--        { title = "FastbillBackgroundPaymentsEnabled" },
+--        { title = "MinionPing" },
+--        { title = "NeverbeastPing" },
+--        { title = "ScheduledPaymentsEngineEnabled" },
+--        { title = "SmtpMinionConnectivity" },
+--        { title = "SpreedlyConnectivity" },
+--    })
+-- end
