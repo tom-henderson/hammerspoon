@@ -90,13 +90,13 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Down", function()
 end)
 
 -- Next Screen
-hs.hotkey.bind({"alt", "ctrl"}, "Right", function()
+hs.hotkey.bind({"cmd", "ctrl"}, "Right", function()
     local win = hs.window.focusedWindow()
     win:moveOneScreenEast(false, true, sizeup.animationDuration)
 end)
 
 -- Previous Screen
-hs.hotkey.bind({"alt", "ctrl"}, "Left", function()
+hs.hotkey.bind({"cmd", "ctrl"}, "Left", function()
     local win = hs.window.focusedWindow()
     win:moveOneScreenWest(false, true, sizeup.animationDuration)
 end)
