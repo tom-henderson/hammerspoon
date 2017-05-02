@@ -30,6 +30,7 @@ end)
 local sizeup = {}
 sizeup.animationDuration = 0.0
 sizeup.snapback_window_state = { }
+sizeup.scale_factor = 0.1
 sizeup.positions = {
     max = hs.layout.maximized,
     left = hs.layout.left50,
@@ -66,6 +67,23 @@ end)
 
 -- Center
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "C", function()
+  sizeup.set_window_location(sizeup.positions.center)
+end)
+
+-- Grow
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "=", function()
+  local frame =  hs.window.focusedWindow():frame()
+  new_frame = {
+      x=0.25,
+      y=0.125,
+      w= frame.w + sizeup.scale_factor,
+      h= frame.h + sizeup.scale_factor
+  }
+  sizeup.set_window_location(new_frame)
+end)
+
+-- Shrink
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "-", function()
   sizeup.set_window_location(sizeup.positions.center)
 end)
 
