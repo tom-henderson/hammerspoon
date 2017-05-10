@@ -171,3 +171,9 @@ end
 --        { title = "SpreedlyConnectivity" },
 --    })
 -- end
+
+-- Type Clipboard Contents
+hs.hotkey.bind({"alt", "ctrl"}, "V", function()
+    local text = hs.pasteboard.readString()
+    hs.eventtap.keyStrokes(text)
+end)
