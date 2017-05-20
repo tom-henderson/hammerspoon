@@ -30,7 +30,7 @@ end)
 local sizeup = {}
 sizeup.animationDuration = 0.0
 sizeup.snapback_window_state = { }
-sizeup.scale_factor = 0.1
+sizeup.scale_factor = 0.025
 sizeup.positions = {
     max = hs.layout.maximized,
     left = hs.layout.left50,
@@ -41,7 +41,7 @@ sizeup.positions = {
 }
 
 function sizeup.set_window_location(position)
-    local win =  hs.window.focusedWindow()
+    local win = hs.window.focusedWindow()
     local previous_state = sizeup.snapback_window_state[win:id()]
 
     if not previous_state then
@@ -72,19 +72,36 @@ end)
 
 -- Grow
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "=", function()
-  local frame =  hs.window.focusedWindow():frame()
-  new_frame = {
-      x=0.25,
-      y=0.125,
-      w= frame.w + sizeup.scale_factor,
-      h= frame.h + sizeup.scale_factor
+  local screen = hs.screen.mainScreen():frame()
+  local win = hs.window.focusedWindow():frame()
+
+  local frame = hs.geometry.toUnitRect(win,screen)
+
+  local new_frame = {
+      x = frame.x - (sizeup.scale_factor / 2),
+      y = frame.y - (sizeup.scale_factor / 2),
+      w = frame.w + sizeup.scale_factor,
+      h = frame.h + sizeup.scale_factor
   }
+
   sizeup.set_window_location(new_frame)
 end)
 
 -- Shrink
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "-", function()
-  sizeup.set_window_location(sizeup.positions.center)
+  local screen = hs.screen.mainScreen():frame()
+  local win = hs.window.focusedWindow():frame()
+
+  local frame = hs.geometry.toUnitRect(win,screen)
+
+  local new_frame = {
+      x = frame.x + (sizeup.scale_factor / 2),
+      y = frame.y + (sizeup.scale_factor / 2),
+      w = frame.w - sizeup.scale_factor,
+      h = frame.h - sizeup.scale_factor
+  }
+
+  sizeup.set_window_location(new_frame)
 end)
 
 -- Left Half
