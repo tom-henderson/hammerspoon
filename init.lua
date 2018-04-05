@@ -15,11 +15,11 @@ hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
 
 -- Launch Screen Saver
 hs.hotkey.bind({"ctrl", "alt"}, "Delete", function()
-  hs.application.launchOrFocus("/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app")
+    hs.caffeinate.startScreensaver()
 end)
 
 hs.hotkey.bind({"ctrl", "alt"}, "ForwardDelete", function()
-  hs.application.launchOrFocus("/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app")
+    hs.caffeinate.startScreensaver()
 end)
 
 hs.hotkey.bind({"shift", "cmd"}, ",", function()
