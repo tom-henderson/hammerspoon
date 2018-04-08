@@ -177,3 +177,23 @@ hs.hotkey.bind({"alt", "ctrl"}, "V", function()
     local text = hs.pasteboard.readString()
     hs.eventtap.keyStrokes(text)
 end)
+
+-- WiFi Watcher
+hs.wifi.watcher.new(function ()
+    local currentWifi = wifi.currentNetwork()
+    -- short-circuit if disconnecting
+    if not currentWifi then return end
+  
+    local note = hs.notify.new({
+      title="Connected to WiFi", 
+      informativeText="Now connected to " .. currentWifi
+    }):send()
+  
+    --Dismiss notification in 3 seconds
+    --Notification does not auto-withdraw if Hammerspoon is set to use "Alerts"
+    --in System Preferences > Notifications
+    -- hs.timer.doAfter(3, function ()
+    --   note:withdraw()
+    --   note = nil
+    -- end)
+  end):start()
