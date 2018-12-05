@@ -133,9 +133,9 @@ caffeine.menu = hs.menubar.new()
 
 function caffeine.setCaffeineDisplay(state)
     if state then
-        caffeine.menu:setIcon("~/.hammerspoon/images/active@2x.png", false)
+        caffeine.menu:setIcon("~/.hammerspoon/images/active@2x.png", true)
     else
-        caffeine.menu:setIcon("~/.hammerspoon/images/inactive@2x.png", false)
+        caffeine.menu:setIcon("~/.hammerspoon/images/inactive@2x.png", true)
     end
 end
 
