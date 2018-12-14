@@ -154,30 +154,6 @@ if caffeine then
     caffeine.setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
 end
 
--- local pushpay_status = {}
--- pushpay_status.menu = hs.menubar.new()
-
--- function pushpay_status.menuClicked()
---     hs.http.asyncGet('https://api.pushpay.com/v1/healthcheck', nil, function()
---         body_json = hs.json.decode(body)
---         hs.notify.new({title=body, informativeText=body}):send()
---     end)
--- end
-
--- if pushpay_status then
---     pushpay_status.menu:setClickCallback(pushpay_status.menuClicked)
---     pushpay_status.menu:setIcon("~/.hammerspoon/images/pushpay_logo.png", false)
---     pushpay_status.menu:setMenu( {
---        { title = "CheckgatewayMinionConnectivity" },
---        { title = "FastbillBackgroundPaymentsEnabled" },
---        { title = "MinionPing" },
---        { title = "NeverbeastPing" },
---        { title = "ScheduledPaymentsEngineEnabled" },
---        { title = "SmtpMinionConnectivity" },
---        { title = "SpreedlyConnectivity" },
---    })
--- end
-
 -- Type Clipboard Contents
 hs.hotkey.bind({"alt", "ctrl"}, "V", function()
     local text = hs.pasteboard.readString()
