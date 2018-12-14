@@ -1,3 +1,5 @@
+logger = hs.logger.new('logging','debug')
+
 -- Automatically reload config on changes
 function reloadConfig(files)
     doReload = false
@@ -200,10 +202,9 @@ end):start()
 
 -- mouse events
 local clicker = {}
-clicker.log = hs.logger.new('logging','debug')
 clicker.events = {
     hs.eventtap.event.types.middleMouseDown,
-hs.eventtap.event.types.middleMouseUp
+    hs.eventtap.event.types.middleMouseUp
 }
 clicker.tap = hs.eventtap.new(clicker.events, function(event)
 
@@ -215,24 +216,23 @@ clicker.tap = hs.eventtap.new(clicker.events, function(event)
         action = "up"
     end
 
-
     current_app = hs.application.frontmostApplication()
     google_chrome = hs.application.find("Google Chrome")
 
     if (button == 2) then
-        -- clicker.log:i("Middle button", action)
+        -- logger:i("Middle button", action)
     end
 
     if (current_app == google_chrome) then
         if (button == 3) then
-            -- clicker.log:i("Back button", action)
+            -- logger:i("Back button", action)
             if (action == "up") then
                 hs.eventtap.keyStroke({"cmd"}, "[")
             end
         end
 
         if (button == 4) then
-            -- clicker.log:i("Forward button", action)
+            -- logger:i("Forward button", action)
             if (action == "up") then
                 hs.eventtap.keyStroke({"cmd"}, "]")
             end
@@ -241,6 +241,6 @@ clicker.tap = hs.eventtap.new(clicker.events, function(event)
 end):start()
 
 hs.hotkey.bind({"alt", "ctrl"}, "Tab", function()
-    -- clicker.log:i("thumb button pressed")
+    -- logger:i("thumb button pressed")
     hs.application.launchOrFocus("Mission Control.app")
 end)
