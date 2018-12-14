@@ -196,4 +196,51 @@ hs.wifi.watcher.new(function ()
     --   note:withdraw()
     --   note = nil
     -- end)
-  end):start()
+end):start()
+
+-- mouse events
+local clicker = {}
+clicker.log = hs.logger.new('logging','debug')
+clicker.events = {
+    hs.eventtap.event.types.middleMouseDown,
+hs.eventtap.event.types.middleMouseUp
+}
+clicker.tap = hs.eventtap.new(clicker.events, function(event)
+
+    button = event:getProperty(hs.eventtap.event.properties.mouseEventButtonNumber)
+
+    if (event:getType() == hs.eventtap.event.types.middleMouseDown) then
+        action = "down"
+    else
+        action = "up"
+    end
+
+
+    current_app = hs.application.frontmostApplication()
+    google_chrome = hs.application.find("Google Chrome")
+
+    if (button == 2) then
+        -- clicker.log:i("Middle button", action)
+    end
+
+    if (current_app == google_chrome) then
+        if (button == 3) then
+            -- clicker.log:i("Back button", action)
+            if (action == "up") then
+                hs.eventtap.keyStroke({"cmd"}, "[")
+            end
+        end
+
+        if (button == 4) then
+            -- clicker.log:i("Forward button", action)
+            if (action == "up") then
+                hs.eventtap.keyStroke({"cmd"}, "]")
+            end
+        end
+    end
+end):start()
+
+hs.hotkey.bind({"alt", "ctrl"}, "Tab", function()
+    -- clicker.log:i("thumb button pressed")
+    hs.application.launchOrFocus("Mission Control.app")
+end)
