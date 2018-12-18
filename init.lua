@@ -30,7 +30,7 @@ end)
 
 -- Replace SizeUp
 local sizeup = {}
-sizeup.animationDuration = 0.0
+sizeup.animationDuration = 0.1
 sizeup.snapback_window_state = { }
 sizeup.positions = {
     max = hs.layout.maximized,
