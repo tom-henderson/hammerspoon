@@ -20,6 +20,7 @@ hs.loadSpoon("Caffiene")
 hs.loadSpoon("SizeUp")
 hs.loadSpoon("WiFi")
 hs.loadSpoon("ScreenSaver")
+hs.loadSpoon("ColourPicker")
 
 -- Type Clipboard Contents
 hs.hotkey.bind({"alt", "ctrl"}, "V", function()
