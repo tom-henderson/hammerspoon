@@ -31,9 +31,7 @@ function obj.caffeineClicked()
     obj.setCaffeineDisplay(hs.caffeinate.toggle("displayIdle"))
 end
 
-if caffeine then
-    obj.menu:setClickCallback(obj.caffeineClicked)
-    obj.setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
-end
+obj.menu:setClickCallback(obj.caffeineClicked)
+obj.setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
 
 return obj

@@ -28,7 +28,7 @@ function obj.set(state)
       state
     )
   )
-  darkmode.updateTitle()
+  obj.updateTitle()
 end
 
 function obj.isOn()
