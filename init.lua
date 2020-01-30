@@ -22,6 +22,16 @@ hs.loadSpoon("WiFi")
 hs.loadSpoon("ScreenSaver")
 hs.loadSpoon("ColourPicker")
 
+-- spoon.SizeUp:bindHotkeys({
+--     max={{"cmd", "alt", "ctrl"}, "M"},
+--     left={{"cmd", "alt", "ctrl"}, "Left"},
+--     right={{"cmd", "alt", "ctrl"}, "Right"},
+--     top={{"cmd", "alt", "ctrl"}, "Up"},
+--     bottom={{"cmd", "alt", "ctrl"}, "Down"},
+--     center={{"cmd", "alt", "ctrl"}, "C"},
+--     snapback={{"cmd", "alt", "ctrl"}, "/"},
+-- })
+
 -- Type Clipboard Contents
 hs.hotkey.bind({"alt", "ctrl"}, "V", function()
     local text = hs.pasteboard.readString()
@@ -74,3 +84,4 @@ end)
 -- hs.hotkey.bind({"alt", "ctrl"}, "Tab", function()
 --     hs.application.launchOrFocus("Mission Control.app")
 -- end)
+

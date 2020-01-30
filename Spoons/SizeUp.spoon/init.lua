@@ -111,4 +111,17 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "/", function()
   obj.snapback()
 end)
 
+-- function obj:bindHotkeys(mapping)
+--   local def = {
+--     max = obj.set_window_location(obj.positions.max),
+--     left = obj.set_window_location(obj.positions.left),
+--     right = obj.set_window_location(obj.positions.right),
+--     top = obj.set_window_location(obj.positions.top),
+--     bottom = obj.set_window_location(obj.positions.bottom),
+--     center = obj.set_window_location(obj.positions.center),
+--     snapback = obj.snapback(),
+--   }
+--   hs.spoons.bindHotkeysToSpec(def, mapping)
+-- end
+
 return obj
