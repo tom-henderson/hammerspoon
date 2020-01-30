@@ -21,7 +21,7 @@ hs.loadSpoon("SizeUp")
 hs.loadSpoon("WiFi")
 hs.loadSpoon("ScreenSaver")
 hs.loadSpoon("ColourPicker")
-hs.loadSpoon("Lastpass")
+hs.loadSpoon("LastPass")
 
 -- spoon.SizeUp:bindHotkeys({
 --     max={{"cmd", "alt", "ctrl"}, "M"},
