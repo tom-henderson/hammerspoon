@@ -55,7 +55,7 @@ end
 function obj.reload()
     print("Reloading items")
     hs.task.new("/usr/local/bin/lpass", function()
-        hs.notify.new({title="Lastpass", informativeText="Vault loaded."}):send()
+        hs.notify.new({title="Lastpass", informativeText="Vault loaded.", setIdImage=hs.image.imageFromPath(obj.spoonPath.."lastpass.png")}):send()
     end, obj.parse_lpass, {"ls", "--color", "never", "--format", "%ai|%/as%/ag%an|%au"}):start()
 end
 
@@ -79,14 +79,14 @@ function obj.generate_password()
         index = index % #chars
     until pw:len() >= length
     hs.pasteboard.setContents(pw)
-    hs.notify.new({title="Lastpass", informativeText="New password copied to clipboard."}):send()
+    hs.notify.new({title="Lastpass", informativeText="New password copied to clipboard.", setIdImage=hs.image.imageFromPath(obj.spoonPath.."lastpass.png")}):send()
 end
 
 function obj.lock()
     obj.choices = {}
     obj.chooser:choices(obj.choices)
     hs.task.new("/usr/local/bin/lpass", function() 
-        hs.notify.new({title="Lastpass", informativeText="Vault locked."}):send()
+        hs.notify.new({title="Lastpass", informativeText="Vault locked.", setIdImage=hs.image.imageFromPath(obj.spoonPath.."lastpass.png")}):send()
     end, {"logout", "--force"}):start()
 end
 
