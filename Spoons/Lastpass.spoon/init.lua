@@ -30,7 +30,6 @@ function obj.parse_lpass(task, stdOut, stdErr)
 
             if (parts[1] and parts[2] and string.char) then
                 if ((string.byte(parts[2], -1)) ~= "/" ) then
-                    -- TODO: Would be good to include the username so it's searchable
                     table.insert(obj.choices,
                         {
                             text=parts[2],
