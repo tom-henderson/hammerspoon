@@ -60,7 +60,26 @@ function obj.reload()
 end
 
 function obj.generate_password()
-    return true
+    local index, pw, rnd = 0, ""
+    local length = 50
+    local chars = {
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "abcdefghijklmnopqrstuvwxyz",
+        "0123456789",
+        "!\"#$%&'()*+,-./:;<=>?@[]^_{|}~"
+    }
+    repeat
+        index = index + 1
+        rnd = math.random(chars[index]:len())
+        if math.random(2) == 1 then
+            pw = pw .. chars[index]:sub(rnd, rnd)
+        else
+            pw = chars[index]:sub(rnd, rnd) .. pw
+        end
+        index = index % #chars
+    until pw:len() >= length
+    hs.pasteboard.setContents(pw)
+    hs.notify.new({title="Lastpass", informativeText="New password copied to clipboard."}):send()
 end
 
 function obj.lock()
