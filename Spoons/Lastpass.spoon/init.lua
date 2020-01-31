@@ -34,7 +34,8 @@ function obj.parse_lpass(task, stdOut, stdErr)
                     table.insert(obj.choices,
                         {
                             text=parts[2],
-                            id=parts[1]
+                            id=parts[1],
+                            subText=parts[3]
                         }
                     )
                     obj.chooser:choices(obj.choices)
@@ -47,16 +48,16 @@ function obj.parse_lpass(task, stdOut, stdErr)
 end
 
 function obj.copy_password(item)
-    if not choice then return end
-    -- print(choice["text"])
-    hs.task.new("/usr/local/bin/lpass", function() return true end, {"show", "--clip", "--password", choice["id"]}):start()
+    if not item then return end
+    print(item["text"])
+    hs.task.new("/usr/local/bin/lpass", function() return true end, {"show", "--clip", "--password", item["id"]}):start()
 end
 
 function obj.reload()
     print("Reloading items")
     hs.task.new("/usr/local/bin/lpass", function()
         hs.notify.new({title="Lastpass", informativeText="Vault loaded."}):send()
-    end, obj.parse_lpass, {"ls", "--color", "never", "--format", "%ai|%/as%/ag%an"}):start()
+    end, obj.parse_lpass, {"ls", "--color", "never", "--format", "%ai|%/as%/ag%an|%au"}):start()
 end
 
 function obj.generate_password()
@@ -76,6 +77,7 @@ obj.choices = {}
 obj.chooser = hs.chooser.new(obj.copy_password)
 obj.chooser:width(30)
 obj.chooser:rows(8)
+obj.chooser:searchSubText(true)
 
 obj.chooser:showCallback(function()
     if (#obj.choices == 0) then
