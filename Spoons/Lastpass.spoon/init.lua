@@ -15,48 +15,53 @@ local function script_path()
 end
 obj.spoonPath = script_path()
 
+local function notify(message)
+    local title = "Lastpass"
+    local image = hs.image.imageFromPath(obj.spoonPath.."lastpass.png")
+    hs.notify.new({title=title, informativeText=message, setIdImage=image}):send()
+end
+
 function obj.parse_lpass(task, stdOut, stdErr)
-    -- print("Lodader finished " .. exitCode)
-    if (task == nil) then
-        return true
-    else
-        -- Folder name/Item name blah blah [id: 12345789]
-        for line in stdOut:gmatch("[^\r\n]+") do
+    for line in stdOut:gmatch("[^\r\n]+") do
+        local parts = {}
 
-            local parts = {}
-            for item in line:gmatch("[^|]+") do
-                table.insert(parts, item)
+        for item in line:gmatch("[^|]+") do
+            table.insert(parts, item)
+        end
+
+        if (parts[1] and parts[2]) then
+            if (string.char(string.byte(parts[2], -1)) ~= "/" ) then
+                table.insert(obj.choices,
+                    {
+                        text=parts[2],
+                        id=parts[1],
+                        subText=parts[3]
+                    }
+                )
+                obj.chooser:choices(obj.choices)
             end
-
-            if (parts[1] and parts[2] and string.char) then
-                if ((string.byte(parts[2], -1)) ~= "/" ) then
-                    table.insert(obj.choices,
-                        {
-                            text=parts[2],
-                            id=parts[1],
-                            subText=parts[3]
-                        }
-                    )
-                    obj.chooser:choices(obj.choices)
-                end
-            end
-
         end
     end
-    return true
+
+    if (task == nil) then
+        notify("Vault loaded.")
+    end
+
+    return not (task == nil)
 end
 
 function obj.copy_password(item)
     if not item then return end
-    print(item["text"])
+    -- print("Fetching password for "..item["text"])
     hs.task.new("/usr/local/bin/lpass", function() return true end, {"show", "--clip", "--password", item["id"]}):start()
 end
 
 function obj.reload()
     print("Reloading items")
-    hs.task.new("/usr/local/bin/lpass", function()
-        hs.notify.new({title="Lastpass", informativeText="Vault loaded.", setIdImage=hs.image.imageFromPath(obj.spoonPath.."lastpass.png")}):send()
-    end, obj.parse_lpass, {"ls", "--color", "never", "--format", "%ai|%/as%/ag%an|%au"}):start()
+    obj.choices = {}
+    obj.chooser:choices(obj.choices)
+    -- Specify pipe delimited output here so we can parse the output.
+    hs.task.new("/usr/local/bin/lpass", nil, obj.parse_lpass, {"ls", "--color", "never", "--format", "%ai|%/as%/ag%an|%au"}):start()
 end
 
 function obj.generate_password()
@@ -79,15 +84,13 @@ function obj.generate_password()
         index = index % #chars
     until pw:len() >= length
     hs.pasteboard.setContents(pw)
-    hs.notify.new({title="Lastpass", informativeText="New password copied to clipboard.", setIdImage=hs.image.imageFromPath(obj.spoonPath.."lastpass.png")}):send()
+    notify("New password copied to clipboard.")
 end
 
 function obj.lock()
     obj.choices = {}
     obj.chooser:choices(obj.choices)
-    hs.task.new("/usr/local/bin/lpass", function() 
-        hs.notify.new({title="Lastpass", informativeText="Vault locked.", setIdImage=hs.image.imageFromPath(obj.spoonPath.."lastpass.png")}):send()
-    end, {"logout", "--force"}):start()
+    hs.task.new("/usr/local/bin/lpass", notify("Vault locked."), {"logout", "--force"}):start()
 end
 
 -- Chooser
@@ -109,7 +112,7 @@ obj.menu = hs.menubar.new()
 obj.menu:setIcon(obj.spoonPath.."/lastpass.tiff", true) 
 obj.menu:setMenu(
     {
-        { title = "Quick Search", fn = obj.chooser.show },
+        { title = "Quick Search", fn = function(mods, item) obj.chooser:show() end },
         { title = "Generate Password", fn = obj.generate_password },
         { title = "-" },
         { title = "Refresh", fn = obj.reload },
