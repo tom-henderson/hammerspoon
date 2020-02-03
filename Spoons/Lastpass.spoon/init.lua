@@ -62,7 +62,7 @@ end
 
 function obj.copy_password(item)
     if not item then return end
-    hs.task.new(obj.lpass, function() return true end, {"show", "--clip", "--password", item["id"]}):start()
+    hs.task.new(obj.lpass, function() return true end, {"show", "--clip", "--password", item.id}):start()
 end
 
 function obj.reload()
