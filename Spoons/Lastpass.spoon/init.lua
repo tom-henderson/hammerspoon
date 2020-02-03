@@ -25,7 +25,7 @@ obj.spoonPath = script_path()
 local function notify(message)
     if not obj.show_notifications then return end
     local title = "Lastpass"
-    local image = hs.image.imageFromPath(obj.spoonPath.."lastpass.png")
+    local image = hs.image.imageFromPath(obj.spoonPath.."lastpass-icon.png")
     local notification = hs.notify.new({title=title, informativeText=message, setIdImage=image}):send()
     if (obj.notification_duration > 0) then
         hs.timer.doAfter(obj.notification_duration, function ()
@@ -119,7 +119,7 @@ end)
 
 -- Menu
 obj.menu = hs.menubar.new()
-obj.menu:setIcon(obj.spoonPath.."/lastpass.tiff", true) 
+obj.menu:setIcon(obj.spoonPath.."/lastpass-menu.png", true) 
 obj.menu:setMenu(
     {
         { title = "Quick Search", fn = function(mods, item) obj.chooser:show() end },
