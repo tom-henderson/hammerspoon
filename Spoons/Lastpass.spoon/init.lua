@@ -132,4 +132,7 @@ obj.menu:setMenu(
 
 hs.hotkey.bind({"ctrl"}, "Space", function() obj.chooser:show() end)
 
+-- Type Clipboard Contents
+hs.hotkey.bind({"alt", "ctrl"}, "V", function() hs.eventtap.keyStrokes(hs.pasteboard.readString()) end)
+
 return obj
