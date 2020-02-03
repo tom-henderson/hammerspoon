@@ -8,6 +8,9 @@ obj.author = "Tom Henderson <tomhenderson@mac.com>"
 obj.homepage = "https://tom-henderson.github.io"
 obj.license = "MIT - https://opensource.org/licenses/MIT"
 
+obj.lpass = "/usr/local/bin/lpass"
+obj.password_length = 50
+
 -- Internal function used to find our location, so we know where to load files from
 local function script_path()
     local str = debug.getinfo(2, "S").source:sub(2)
@@ -21,7 +24,7 @@ local function notify(message)
     hs.notify.new({title=title, informativeText=message, setIdImage=image}):send()
 end
 
-function obj.parse_lpass_output(task, stdOut, stdErr)
+local function parse_lpass_output(task, stdOut, stdErr)
     for line in stdOut:gmatch("[^\r\n]+") do
 
         _, _, id, title, username = line:find("(.+[^/]?)|(.+)|(.+)")
@@ -51,8 +54,7 @@ end
 
 function obj.copy_password(item)
     if not item then return end
-    -- print("Fetching password for "..item["text"])
-    hs.task.new("/usr/local/bin/lpass", function() return true end, {"show", "--clip", "--password", item["id"]}):start()
+    hs.task.new(obj.lpass, function() return true end, {"show", "--clip", "--password", item["id"]}):start()
 end
 
 function obj.reload()
@@ -60,12 +62,12 @@ function obj.reload()
     obj.choices = {}
     obj.chooser:choices(obj.choices)
     -- Specify pipe delimited output here so we can parse the output.
-    hs.task.new("/usr/local/bin/lpass", nil, obj.parse_lpass_output, {"ls", "--color", "never", "--format", "%ai|%/as%/ag%an|%au"}):start()
+    hs.task.new(obj.lpass, nil, parse_lpass_output, {"ls", "--color", "never", "--format", "%ai|%/as%/ag%an|%au"}):start()
 end
 
 function obj.generate_password()
     local index, pw, rnd = 0, ""
-    local length = 50
+    local length = obj.password_length
     local chars = {
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         "abcdefghijklmnopqrstuvwxyz",
@@ -89,7 +91,7 @@ end
 function obj.lock()
     obj.choices = {}
     obj.chooser:choices(obj.choices)
-    hs.task.new("/usr/local/bin/lpass", notify("Vault locked."), {"logout", "--force"}):start()
+    hs.task.new(obj.lpass, notify("Vault locked."), {"logout", "--force"}):start()
 end
 
 -- Chooser
