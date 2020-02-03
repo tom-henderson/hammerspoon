@@ -130,9 +130,18 @@ obj.menu:setMenu(
     }
 )
 
-hs.hotkey.bind({"cmd", "shift"}, "L", function() obj.chooser:show() end)
+function obj:bindHotkeys(mapping)
+  local def = {
+    quick_search = function() obj.chooser:show() end,
+    type_clipboard = function() hs.eventtap.keyStrokes(hs.pasteboard.readString()) end,
+  }
+  hs.spoons.bindHotkeysToSpec(def, mapping)
+end
 
--- Type Clipboard Contents
-hs.hotkey.bind({"alt", "ctrl"}, "V", function() hs.eventtap.keyStrokes(hs.pasteboard.readString()) end)
+-- Set default hotkeys
+obj:bindHotkeys({
+    quick_search = {{"cmd", "shift"}, "L"},
+    type_clipboard = {{"cmd", "shift"}, "V"},
+})
 
 return obj
