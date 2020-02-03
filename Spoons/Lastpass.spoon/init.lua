@@ -21,25 +21,24 @@ local function notify(message)
     hs.notify.new({title=title, informativeText=message, setIdImage=image}):send()
 end
 
-function obj.parse_lpass(task, stdOut, stdErr)
+function obj.parse_lpass_output(task, stdOut, stdErr)
     for line in stdOut:gmatch("[^\r\n]+") do
-        local parts = {}
 
-        for item in line:gmatch("[^|]+") do
-            table.insert(parts, item)
-        end
+        _, _, id, title, username = line:find("(.+[^/]?)|(.+)|(.+)")
 
-        if (parts[1] and parts[2]) then
-            if (string.char(string.byte(parts[2], -1)) ~= "/" ) then
-                table.insert(obj.choices,
-                    {
-                        text=parts[2],
-                        id=parts[1],
-                        subText=parts[3]
-                    }
-                )
-                obj.chooser:choices(obj.choices)
-            end
+        -- Above regex will strip out entries that do not have a username
+        -- This is probably ok, as those will likely be notes that don't have
+        -- a password field anyway.
+
+        if (title) then
+            table.insert(obj.choices,
+                {
+                    text=title,
+                    id=id,
+                    subText=username
+                }
+            )
+            obj.chooser:choices(obj.choices)
         end
     end
 
@@ -61,7 +60,7 @@ function obj.reload()
     obj.choices = {}
     obj.chooser:choices(obj.choices)
     -- Specify pipe delimited output here so we can parse the output.
-    hs.task.new("/usr/local/bin/lpass", nil, obj.parse_lpass, {"ls", "--color", "never", "--format", "%ai|%/as%/ag%an|%au"}):start()
+    hs.task.new("/usr/local/bin/lpass", nil, obj.parse_lpass_output, {"ls", "--color", "never", "--format", "%ai|%/as%/ag%an|%au"}):start()
 end
 
 function obj.generate_password()
@@ -102,6 +101,7 @@ obj.chooser:searchSubText(true)
 
 obj.chooser:showCallback(function()
     if (#obj.choices == 0) then
+        notify("Loading items.")
         obj.reload()
     end
     return obj.chooser
