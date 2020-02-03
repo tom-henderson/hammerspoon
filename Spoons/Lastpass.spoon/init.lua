@@ -10,6 +10,10 @@ obj.license = "MIT - https://opensource.org/licenses/MIT"
 
 obj.lpass = "/usr/local/bin/lpass"
 obj.password_length = 50
+obj.show_notifications = true
+obj.notification_duration = 3
+obj.chooser_width = 30
+obj.chooser_rows = 8
 
 -- Internal function used to find our location, so we know where to load files from
 local function script_path()
@@ -19,19 +23,22 @@ end
 obj.spoonPath = script_path()
 
 local function notify(message)
+    if not obj.show_notifications then return end
     local title = "Lastpass"
     local image = hs.image.imageFromPath(obj.spoonPath.."lastpass.png")
-    hs.notify.new({title=title, informativeText=message, setIdImage=image}):send()
+    local notification = hs.notify.new({title=title, informativeText=message, setIdImage=image}):send()
+    if (obj.notification_duration > 0) then
+        hs.timer.doAfter(obj.notification_duration, function ()
+            notification:withdraw()
+            notification = nil
+        end)
+    end
 end
 
 local function parse_lpass_output(task, stdOut, stdErr)
     for line in stdOut:gmatch("[^\r\n]+") do
-
+        -- Filter out folders and entries that do not have a username
         _, _, id, title, username = line:find("(.+[^/]?)|(.+)|(.+)")
-
-        -- Above regex will strip out entries that do not have a username
-        -- This is probably ok, as those will likely be notes that don't have
-        -- a password field anyway.
 
         if (title) then
             table.insert(obj.choices,
@@ -46,6 +53,7 @@ local function parse_lpass_output(task, stdOut, stdErr)
     end
 
     if (task == nil) then
+        -- FIXME: Sometimes this doesn't fire...
         notify("Vault loaded.")
     end
 
@@ -97,8 +105,8 @@ end
 -- Chooser
 obj.choices = {}
 obj.chooser = hs.chooser.new(obj.copy_password)
-obj.chooser:width(30)
-obj.chooser:rows(8)
+obj.chooser:width(obj.chooser_width)
+obj.chooser:rows(obj.chooser_rows)
 obj.chooser:searchSubText(true)
 
 obj.chooser:showCallback(function()
