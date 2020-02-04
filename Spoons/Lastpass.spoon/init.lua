@@ -11,7 +11,6 @@ obj.license = "MIT - https://opensource.org/licenses/MIT"
 obj.lpass = "/usr/local/bin/lpass"
 obj.password_length = 50
 obj.show_notifications = true
-obj.notification_duration = 3
 obj.chooser_width = 30
 obj.chooser_rows = 8
 
@@ -27,15 +26,14 @@ local function notify(message)
     local title = "Lastpass"
     local image = hs.image.imageFromPath(obj.spoonPath.."lastpass-icon.png")
     local notification = hs.notify.new({title=title, informativeText=message, setIdImage=image}):send()
-    if (obj.notification_duration > 0) then
-        hs.timer.doAfter(obj.notification_duration, function ()
-            notification:withdraw()
-            notification = nil
-        end)
-    end
 end
 
 local function parse_lpass_output(task, stdOut, stdErr)
+    if (stdErr:find("Perhaps you need to login")) then
+        notify("Failed to load vault. Are you logged in?")
+        return false
+    end
+
     for line in stdOut:gmatch("[^\r\n]+") do
         -- Filter out folders and entries that do not have a username
         _, _, id, title, username = line:find("(.+[^/]?)|(.+)|(.+)")
@@ -62,7 +60,11 @@ end
 
 function obj.copy_password(item)
     if not item then return end
-    hs.task.new(obj.lpass, function() return true end, {"show", "--clip", "--password", item.id}):start()
+    hs.task.new(obj.lpass, function(exitCode, stdOut, stdErr)
+        if (stdErr:find("Perhaps you need to login")) then
+            notify("Failed to copy password. Are you logged in?")
+        end
+    end, {"show", "--clip", "--password", item.id}):start()
 end
 
 function obj.reload()
@@ -102,7 +104,6 @@ function obj.lock()
     hs.task.new(obj.lpass, notify("Vault locked."), {"logout", "--force"}):start()
 end
 
--- Chooser
 obj.choices = {}
 obj.chooser = hs.chooser.new(obj.copy_password)
 obj.chooser:width(obj.chooser_width)
@@ -117,7 +118,6 @@ obj.chooser:showCallback(function()
     return obj.chooser
 end)
 
--- Menu
 obj.menu = hs.menubar.new()
 obj.menu:setIcon(obj.spoonPath.."/lastpass-menu.png", true) 
 obj.menu:setMenu(
