@@ -68,7 +68,7 @@ function obj.copy_password(item)
 end
 
 function obj.reload()
-    print("Reloading items")
+    notify("Loading items.")
     obj.choices = {}
     obj.chooser:choices(obj.choices)
     -- Specify pipe delimited output here so we can parse the output.
@@ -112,7 +112,6 @@ obj.chooser:searchSubText(true)
 
 obj.chooser:showCallback(function()
     if (#obj.choices == 0) then
-        notify("Loading items.")
         obj.reload()
     end
     return obj.chooser
@@ -126,7 +125,7 @@ obj.menu:setMenu(
         { title = "Generate Password", fn = obj.generate_password },
         { title = "-" },
         { title = "Refresh", fn = obj.reload },
-        { title = "Lock Lastpass", fn = obj.lock },
+        { title = "Lock LastPass", fn = obj.lock },
     }
 )
 
