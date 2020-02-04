@@ -47,6 +47,9 @@ end
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "/",    obj.snapback)
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "pad/", obj.snapback)
 
+hs.hints.style = "vimperator"
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "pad*", function() hs.hints.windowHints() end)
+
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "M",    function() obj.set_window_location(obj.positions.max) end)
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "C",    function() obj.set_window_location(obj.positions.center) end)
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "pad5", function() obj.set_window_location(obj.positions.center) end)
