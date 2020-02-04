@@ -9,7 +9,7 @@ obj.homepage = "https://tom-henderson.github.io"
 obj.license = "MIT - https://opensource.org/licenses/MIT"
 
 hs.hotkey.bind({"ctrl", "alt"}, "c", function()
-    hs.osascript.applescript("choose color")
+    hs.dialog.color.show()
 end)
 
 return obj
