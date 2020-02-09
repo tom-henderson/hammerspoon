@@ -21,11 +21,20 @@ local function script_path()
 end
 obj.spoonPath = script_path()
 
+local function lastpass_is_installed()
+    return (hs.fs.attributes(obj.lpass, "mode") ~= nil)
+end
+
 local function notify(message)
     if not obj.show_notifications then return end
     local title = "Lastpass"
     local image = hs.image.imageFromPath(obj.spoonPath.."lastpass-icon.png")
     local notification = hs.notify.new({title=title, informativeText=message, setIdImage=image}):send()
+end
+
+if (not lastpass_is_installed()) then
+    notify("LastPass not found. Is it installed?")
+    return obj 
 end
 
 local function parse_lpass_output(task, stdOut, stdErr)
@@ -139,8 +148,8 @@ end
 
 -- Set default hotkeys
 obj:bindHotkeys({
-    quick_search = {{"cmd", "shift"}, "L"},
-    type_clipboard = {{"cmd", "shift"}, "V"},
+    quick_search = {{"cmd", "ctrl"}, "L"},
+    type_clipboard = {{"cmd", "ctrl"}, "V"},
 })
 
 return obj

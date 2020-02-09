@@ -25,8 +25,8 @@ spoon.LastPass.show_notifications = true
 spoon.LastPass.chooser_width = 30
 spoon.LastPass.chooser_rows = 8
 spoon.LastPass:bindHotkeys({
-    quick_search = {{"cmd", "shift"}, "L"},
-    type_clipboard = {{"cmd", "shift"}, "V"},
+    quick_search = {{"cmd", "ctrl"}, "L"},
+    type_clipboard = {{"cmd", "ctrl"}, "V"},
 })
 ```
 
