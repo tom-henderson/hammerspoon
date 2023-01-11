@@ -17,9 +17,4 @@ hs.hotkey.bind({"ctrl", "alt"}, "ForwardDelete", function()
     hs.caffeinate.startScreensaver()
 end)
 
-hs.hotkey.bind({"shift", "cmd"}, ",", function()
-    hs.application.launchOrFocus("System Preferences")
-end)
-
-
 return obj
