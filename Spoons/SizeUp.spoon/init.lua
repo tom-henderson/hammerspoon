@@ -23,6 +23,7 @@ obj.positions = {
     bottom_left = {x=0, y=0.5, w=0.5, h=0.5},
     bottom_right = {x=0.5, y=0.5, w=0.5, h=0.5},
     center_full_height = {x=0.25, y=0, w=0.5, h=1},
+    center_full_width = {x=0, y=0.25, w=1, h=0.5},
 }
 
 function obj.set_window_location(position)
@@ -54,6 +55,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "pad*", function() hs.hints.windowHints()
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "M",    function() obj.set_window_location(obj.positions.max) end)
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "C",    function() obj.set_window_location(obj.positions.center) end)
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "I",    function() obj.set_window_location(obj.positions.center_full_height) end)
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "-",    function() obj.set_window_location(obj.positions.center_full_width) end)
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "pad5", function() obj.set_window_location(obj.positions.center) end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function() obj.set_window_location(obj.positions.left) end)
