@@ -9,6 +9,7 @@ hs.loadSpoon("WiFi")
 hs.loadSpoon("ScreenSaver")
 -- hs.loadSpoon("ColourPicker")
 hs.loadSpoon("LastPass")
+hs.loadSpoon("HomeAssistant")
 
 hs.hotkey.bind({"shift", "cmd"}, ",", function()
     hs.application.launchOrFocus("System Preferences")
