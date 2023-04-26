@@ -29,7 +29,7 @@ local function notify(message)
     if not obj.show_notifications then return end
     local title = "Lastpass"
     local image = hs.image.imageFromPath(obj.spoonPath.."lastpass-icon.png")
-    local notification = hs.notify.new({title=title, informativeText=message, setIdImage=image}):send()
+    local notification = hs.notify.new({title=title, informativeText=message, contentImage=image}):send()
 end
 
 if (not lastpass_is_installed()) then
@@ -73,7 +73,8 @@ function obj.copy_password(item)
         if (stdErr:find("Perhaps you need to login")) then
             notify("Failed to copy password. Are you logged in?")
         end
-    end, {"show", "--clip", "--password", item.id}):start()
+    end, {"show", "--clip", "--password", item.id}):start():waitUntilExit() -- blocking!
+    notify("Password copied")
 end
 
 function obj.reload()
