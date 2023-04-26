@@ -35,12 +35,12 @@ obj.menu:setClickCallback(function()
         obj.window:hide()
     else
         obj.window:show()
-        obj.window:bringToFront(true)
-        obj.window:windowCallback(function(action, webview, hasFocus)
-            if action == "focusChange" and not hasFocus then
-                obj.window:hide()
-            end
-        end)
+            :windowCallback(function(action, webview, hasFocus)
+                if action == "focusChange" and not hasFocus then
+                    obj.window:hide()
+                end
+            end)
+            :bringToFront(true)
     end
 end)
 
