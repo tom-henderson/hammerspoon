@@ -9,7 +9,7 @@ obj.homepage = "https://tom-henderson.github.io"
 obj.license = "MIT - https://opensource.org/licenses/MIT"
 
 obj.window = hs.webview.new({x=100, y=100, w=400, h=800})
-obj.window:url("https://home.thx.nz")
+obj.window:url("https://sjk3x670ymf3am79ip08siwyhjsi0tku.ui.nabu.casa/")
 obj.window:allowTextEntry(true)
 
 -- Internal function used to find our location, so we know where to load files from
