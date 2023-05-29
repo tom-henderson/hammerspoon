@@ -10,6 +10,7 @@ hs.loadSpoon("ScreenSaver")
 -- hs.loadSpoon("ColourPicker")
 hs.loadSpoon("LastPass")
 hs.loadSpoon("HomeAssistant")
+hs.loadSpoon("Targus")
 
 hs.hotkey.bind({"shift", "cmd"}, ",", function()
     hs.application.launchOrFocus("System Preferences")
