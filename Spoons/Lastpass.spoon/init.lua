@@ -8,7 +8,7 @@ obj.author = "Tom Henderson <tomhenderson@mac.com>"
 obj.homepage = "https://tom-henderson.github.io"
 obj.license = "MIT - https://opensource.org/licenses/MIT"
 
-obj.lpass = "/usr/local/bin/lpass"
+obj.lpass = "/opt/homebrew/bin/lpass"
 obj.password_length = 50
 obj.show_notifications = true
 obj.chooser_width = 30
