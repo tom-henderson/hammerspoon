@@ -14,9 +14,9 @@ hs.usb.watcher.new(function (fn)
     print("[" .. fn.vendorID .. "] " .. fn.vendorName .. " [" .. fn.productID .. "] " .. fn.productName .. " was " .. fn.eventType)
   
     -- Targus Dock:
-    -- product Id: 0x6004
+    -- product Id: 0x6004 = 24580 decimal
     -- vendor ID: 0x17e9 = 6121 decimal
-    if (fn.vendorID == 6121 and fn.productID == 6004) then
+    if ("" .. fn.vendorID .. "" == "6121" and "" .. fn.productID .. "" == "24580") then
 
       local note = hs.notify.new({
         title="USB Event", 
