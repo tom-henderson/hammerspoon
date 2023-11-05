@@ -11,16 +11,15 @@ obj.license = "MIT - https://opensource.org/licenses/MIT"
 -- USB Watcher
 hs.usb.watcher.new(function (fn)
 
-    print("[" .. fn.vendorID .. "] " .. fn.vendorName .. " [" .. fn.productID .. "] " .. fn.productName .. " was " .. fn.eventType)
+    -- print("[" .. fn.vendorID .. "] " .. fn.vendorName .. " [" .. fn.productID .. "] " .. fn.productName .. " was " .. fn.eventType)
   
     -- Targus Dock:
-    -- product Id: 0x6004 = 24580 decimal
-    -- vendor ID: 0x17e9 = 6121 decimal
-    if ("" .. fn.vendorID .. "" == "6121" and "" .. fn.productID .. "" == "24580") then
+    if (fn.vendorName == "DisplayLink" and fn.productName == "Targus USB3 DV4K DOCK w PD60W") then
 
       local note = hs.notify.new({
         title="USB Event", 
-        informativeText=fn.vendorName .. fn.productName .. " was " .. fn.eventType
+        informativeText=fn.vendorName .. fn.productName .. " was " .. fn.eventType,
+        setIdImage=hs.image.iconForFile("/Applications/DisplayLink Manager.app")
       }):send()
 
       if (fn.eventType == "added") then
