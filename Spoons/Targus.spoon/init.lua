@@ -25,7 +25,10 @@ hs.usb.watcher.new(function (fn)
       if (fn.eventType == "added") then
         hs.application.open("DisplayLink Manager")
       else
-        hs.application.get("DisplayLinkUserAgent"):kill()
+        app = hs.application.get("DisplayLinkUserAgent")
+        if app then
+          app:kill()
+        end
       end
 
     end
