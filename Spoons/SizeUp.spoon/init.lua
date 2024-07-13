@@ -115,6 +115,7 @@ function position_hotkey(mods, key, positions, timeout)
     this._counter = 1
     this._timer = nil
     this.modal =  hs.hotkey.modal.new(mods, key)
+    hs.window.filter.default:subscribe(hs.window.filter.windowFocused, function() this.modal:exit() end)
 
     function this.move_window(positions)
         local win =  hs.window.focusedWindow()
