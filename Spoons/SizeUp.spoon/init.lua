@@ -109,6 +109,7 @@ hs.hotkey.bind({"alt", "ctrl", "shift", "cmd"}, "Left", function()
     win:moveOneScreenWest(false, true, obj.animationDuration)
 end)
 
+-- TODO: When we enter a modal, all other modals should be exited
 function position_hotkey(mods, key, positions, timeout)
     local this = {}
     this._timeout = timeout or 3
