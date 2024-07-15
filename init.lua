@@ -11,7 +11,6 @@ if hs.host.localizedName() == "Tom’s MacBook Air" then
     -- logger.i('Air')
 else
     hs.loadSpoon("LastPass")
-    hs.loadSpoon("HomeAssistant")
     hs.loadSpoon("Targus")
 end
 
