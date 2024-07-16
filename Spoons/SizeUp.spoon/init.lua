@@ -176,4 +176,31 @@ obj.right = position_hotkey({"cmd", "alt", "ctrl"}, "Right", {
     hs.layout.right70,
 })
 
+hs.grid.setGrid('4x4')
+hs.grid.setMargins({0,0}) 
+
+hs.grid.ui.fontName='Lucida Grande'
+hs.grid.ui.textColor={1,1,1,0.7}
+hs.grid.ui.textSize=100
+
+hs.grid.ui.cellStrokeWidth=2
+hs.grid.ui.highlightStrokeWidth=5
+
+hs.grid.ui.cellColor={0,0,0,0.25}
+hs.grid.ui.cellStrokeColor={0,0,0}
+
+-- to highlight the frontmost window behind the grid
+hs.grid.ui.highlightColor={0.8,0.8,0,0.5}
+hs.grid.ui.highlightStrokeColor={0.8,0.8,0,1}
+
+-- for the first selected cell during a modal resize
+hs.grid.ui.selectedColor={0.2,0.7,0,0.4}
+hs.grid.ui.showExtraKeys=false
+
+-- to highlight the window to be resized, when cycling among windows
+hs.grid.ui.cyclingHighlightColor={0,0.8,0.8,0.5}
+hs.grid.ui.cyclingHighlightStrokeColor={0,0.8,0.8,1}
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "G", function() hs.grid.show() end)
+
 return obj
