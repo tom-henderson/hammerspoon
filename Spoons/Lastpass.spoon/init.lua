@@ -40,6 +40,7 @@ end
 local function parse_lpass_output(task, stdOut, stdErr)
     if (stdErr:find("Perhaps you need to login")) then
         notify("Failed to load vault. Are you logged in?")
+        obj.chooser:placeholderText('LastPass Locked')
         return false
     end
 
@@ -64,6 +65,7 @@ local function parse_lpass_output(task, stdOut, stdErr)
         notify("Vault loaded.")
     end
 
+    obj.chooser:placeholderText('Search LastPass...')
     return not (task == nil)
 end
 
@@ -79,6 +81,7 @@ end
 
 function obj.reload()
     notify("Loading items.")
+    obj.chooser:placeholderText('Loading Items')
     obj.choices = {}
     obj.chooser:choices(obj.choices)
     -- Specify pipe delimited output here so we can parse the output.
@@ -111,6 +114,7 @@ end
 function obj.lock()
     obj.choices = {}
     obj.chooser:choices(obj.choices)
+    obj.chooser:placeholderText('LastPass Locked')
     hs.task.new(obj.lpass, notify("Vault locked."), {"logout", "--force"}):start()
 end
 
