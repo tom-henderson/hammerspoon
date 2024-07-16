@@ -116,7 +116,12 @@ function position_hotkey(mods, key, positions, timeout)
     this._counter = 1
     this._timer = nil
     this.modal =  hs.hotkey.modal.new(mods, key)
-    hs.window.filter.default:subscribe(hs.window.filter.windowFocused, function() this.modal:exit() end)
+
+    function this.exit()
+        this.modal:exit()
+    end
+    
+    hs.window.filter.default:subscribe(hs.window.filter.windowFocused, this.exit)
 
     function this.move_window(positions)
         local win =  hs.window.focusedWindow()
@@ -137,7 +142,7 @@ function position_hotkey(mods, key, positions, timeout)
         if not obj.snapback_window_state[win:id()] then
             obj.snapback_window_state[win:id()] = win:frame()
         end
-        this._timer = hs.timer.delayed.new(this._timeout, function() this.modal:exit() end):start()
+        this._timer = hs.timer.delayed.new(this._timeout, this.exit):start()
         this.move_window(positions)
     end
 
