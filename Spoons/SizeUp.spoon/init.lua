@@ -176,7 +176,16 @@ obj.right = position_hotkey({"cmd", "alt", "ctrl"}, "Right", {
     hs.layout.right70,
 })
 
-hs.grid.setGrid('4x4')
+function obj.grid()
+    hs.grid.setGrid('4x4')
+    hs.grid.show()
+end
+
+function obj.big_grid()
+    hs.grid.setGrid('6x4')
+    hs.grid.show()
+end
+
 hs.grid.setMargins({0,0}) 
 
 hs.grid.ui.fontName='Lucida Grande'
@@ -201,6 +210,11 @@ hs.grid.ui.showExtraKeys=false
 hs.grid.ui.cyclingHighlightColor={0,0.8,0.8,0.5}
 hs.grid.ui.cyclingHighlightStrokeColor={0,0.8,0.8,1}
 
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "G", function() hs.grid.show() end)
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "G", obj.grid)
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "F", obj.big_grid)
+
+switcher = hs.window.switcher.new() -- default windowfilter: only visible windows, all Spaces
+hs.hotkey.bind('alt','tab','Next window',function()switcher:next()end)
+hs.hotkey.bind('alt-shift','tab','Prev window',function()switcher:previous()end)
 
 return obj
