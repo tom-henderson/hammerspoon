@@ -13,14 +13,16 @@ function obj:new(identifier, utc_offset)
     local instance = setmetatable({}, self)
     instance.identifier = identifier
     instance.utc_offset = utc_offset
+    instance.time_format = "%I:%M %p"
+    instance.date_format = "%A %d %B"
     instance.menu_item = hs.menubar.new()
 
     function instance:time_with_utc_offset(hours)
-        return os.date("!%I:%M %p", os.time() + hours * 3600)
+        return os.date("!" .. self.time_format, os.time() + hours * 3600)
     end
 
     function instance:date_with_utc_offset(hours)
-        return os.date("!%A %d %B", os.time() + hours * 3600)
+        return os.date("!" .. self.date_format, os.time() + hours * 3600)
     end
 
     function instance:update_menu_title()
