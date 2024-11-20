@@ -149,6 +149,7 @@ function obj:bindHotkeys(mapping)
     type_clipboard = function() hs.eventtap.keyStrokes(hs.pasteboard.readString()) end,
   }
   hs.spoons.bindHotkeysToSpec(def, mapping)
+  return self
 end
 
 -- Set default hotkeys
