@@ -31,6 +31,7 @@ function obj:new(identifier, utc_offset)
         self.menu_item:setMenu(
             {
                 { title = self:date_with_utc_offset(self.utc_offset) },
+                { title = "Update Now", fn = self.start_clock },
             }
         )
     end
@@ -52,7 +53,6 @@ function obj:new(identifier, utc_offset)
         local function click_callback() 
             self:start_clock()
         end
-        self.menu_item:setClickCallback(click_callback)
         self:start_clock() -- Start the clock immediately
         return self
     end
