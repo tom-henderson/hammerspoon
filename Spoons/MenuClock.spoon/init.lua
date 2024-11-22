@@ -27,11 +27,14 @@ function obj:new(identifier, utc_offset)
 
     function instance:update_menu_title()
         local time = self:time_with_utc_offset(self.utc_offset)
+        local function update_now()
+            self:start_clock()
+        end
         self.menu_item:setTitle(self.identifier .. ' ' .. time)
         self.menu_item:setMenu(
             {
                 { title = self:date_with_utc_offset(self.utc_offset) },
-                { title = "Update Now", fn = self.start_clock },
+                { title = "Update Now", fn = start_clock },
             }
         )
     end
