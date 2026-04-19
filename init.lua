@@ -21,3 +21,12 @@ end
 hs.hotkey.bind({"shift", "cmd"}, ",", function()
     hs.application.launchOrFocus("System Preferences")
 end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "p", function()
+    hs.application.launchOrFocus("iPhone Mirroring")
+end)
+
+-- Added to support triggering Mission Control from XBox controller, which is mapped to send ctrl+alt+Tab for L1 bumper
+hs.hotkey.bind({"alt", "ctrl"}, "Tab", function()
+    hs.application.launchOrFocus("Mission Control.app")
+end)
