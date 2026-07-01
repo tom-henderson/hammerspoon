@@ -11,11 +11,11 @@ hs.loadSpoon("ScreenSaver")
 if hs.host.localizedName() == "Tom’s MacBook Air" then
     -- logger.i('Air')
 else
-    local MenuClock = hs.loadSpoon("MenuClock")
-    MenuClock:new("🏔️", -6):start()
-    MenuClock:new("🇬🇧", 1):start()
-    hs.loadSpoon("LastPass")
-    hs.loadSpoon("Targus")
+    --local MenuClock = hs.loadSpoon("MenuClock")
+    --MenuClock:new("🏔️", -6):start()
+    --MenuClock:new("🇬🇧", 1):start()
+    --hs.loadSpoon("LastPass")
+    --hs.loadSpoon("Targus")
 end
 
 hs.hotkey.bind({"shift", "cmd"}, ",", function()
